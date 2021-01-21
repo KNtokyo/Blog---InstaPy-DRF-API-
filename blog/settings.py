@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    'rest_framework_swagger',
+    'drf_yasg',
+    
 
     #MyApps
     'account',
@@ -91,6 +94,13 @@ DATABASES = {
     }
 }
 
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS" :
+    'rest_framework.pagination.PageNumberPagination' ,
+    'PAGE_SIZE' : 100 ,
+    'DEFAULT_SCHEMA_CLASS' : 'rest_framework.schemas.coreapi.AutoSchema' # <- Здесь
+}
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
@@ -138,3 +148,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 AUTH_USER_MODEL = 'account.MyUser'
 
 
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
