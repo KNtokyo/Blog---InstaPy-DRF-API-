@@ -10,10 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
+from datetime import timedelta
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 from decouple import config
+from django.conf import settings
 
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 
@@ -41,6 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_swagger',
+    'rest_framework.authtoken',
     'drf_yasg',
     
 
@@ -98,7 +101,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PAGINATION_CLASS" :
     'rest_framework.pagination.PageNumberPagination' ,
     'PAGE_SIZE' : 100 ,
-    'DEFAULT_SCHEMA_CLASS' : 'rest_framework.schemas.coreapi.AutoSchema' # <- Здесь
+    'DEFAULT_SCHEMA_CLASS' : 'rest_framework.schemas.coreapi.AutoSchema'
 }
 
 
@@ -148,4 +151,62 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 AUTH_USER_MODEL = 'account.MyUser'
 
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    # 'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    # 'PAGE_SIZE': 5
+}
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'localhost'
+# EMAIL_PORT = 1025
+# EMAIL_HOST_USER = config("ACCOUNT")
+# EMAIL_HOST_PASSWORD = config("PASSWORD")
+# EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = False
+# EMAIL_TIMEOUT = None
+# EMAIL_SSL_KEYFILE = None
+# EMAIL_SSL_CERTFILE = None
+
+
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_USE_TLS = True
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = config('ACCOUNT')
+# EMAIL_HOST_PASSWORD = config('PASSWORD')
+
+
+#
+# SIMPLE_JWT = {
+#     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+#     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+#     'ROTATE_REFRESH_TOKENS': False,
+#     'BLACKLIST_AFTER_ROTATION': True,
+#     'UPDATE_LAST_LOGIN': False,
+#
+#     'ALGORITHM': 'HS256',
+#     'SIGNING_KEY': settings.SECRET_KEY,
+#     'VERIFYING_KEY': None,
+#     'AUDIENCE': None,
+#     'ISSUER': None,
+#
+#     'AUTH_HEADER_TYPES': ('Bearer', 'JWT'),
+#     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+#     'USER_ID_FIELD': 'id',
+#     'USER_ID_CLAIM': 'user_id',
+#
+#     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+#     'TOKEN_TYPE_CLAIM': 'token_type',
+#
+#     'JTI_CLAIM': 'jti',
+#
+#     'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+#     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
+#     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+# }
+
