@@ -65,20 +65,20 @@ class CategoryListView(generics.ListAPIView):
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
-    # permission_classes = [IsAuthenticated, ]
+    permission_classes = [IsAuthenticated, ]
     pagination_class = MyPaginationClass
 
     def get_serializer_context(self):
         return {'request': self.request}
 
-    # def get_permissions(self):
-    #     """Переопределил этот метод"""
-    #     print(self.action)
-    #     if self.action in ['update', 'partial_update', 'destroy']:
-    #         permissions = [IsAuthorPost, ]
-    #     else:
-    #         permissions = [IsAuthenticated, ]
-    #     return [permission() for permission in permissions]
+    def get_permissions(self):
+        """Переопределил этот метод"""
+        print(self.action)
+        if self.action in ['update', 'partial_update', 'destroy']:
+            permissions = [IsAuthorPost, ]
+        else:
+            permissions = [IsAuthenticated, ]
+        return [permission() for permission in permissions]
 
     # @action(detail=False, method=['get'])
     # def own(self, request, pk=None):

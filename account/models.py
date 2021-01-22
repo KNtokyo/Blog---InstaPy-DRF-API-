@@ -26,17 +26,17 @@ class MyUserManager(BaseUserManager):
 
 
 class MyUser(AbstractUser):
-    username = None
     email = models.EmailField(unique=True)
     is_active = models.BooleanField(default=False)
     activation_code = models.CharField(max_length=50, blank=True)
+    username = models.CharField(max_length=255, blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
     objects = MyUserManager()
 
-    def __str__(self):
+    def str(self):
         return self.email
 
     def create_activation_code(self):
@@ -46,5 +46,3 @@ class MyUser(AbstractUser):
         md5_object = hashlib.md5(encode_string)
         activation_code = md5_object.hexdigest()
         self.activation_code = activation_code
-
-

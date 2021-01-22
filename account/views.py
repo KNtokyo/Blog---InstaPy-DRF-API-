@@ -8,6 +8,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import *
 from .serializers import *
+from rest_framework_simplejwt.views import TokenObtainPairView
 
 
 class RegisterView(APIView):
@@ -29,8 +30,8 @@ class ActivateView(APIView):
         return Response("Your account successfully activated!", status=status.HTTP_200_OK)
 
 
-class LoginView(ObtainAuthToken):
-    serializers = LoginSerializer
+class LoginView(TokenObtainPairView):
+    serializer_class = LoginSerializer
 
 
 class LogoutView(APIView):
